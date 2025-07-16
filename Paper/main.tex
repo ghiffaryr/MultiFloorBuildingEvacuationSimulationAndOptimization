@@ -4,17 +4,18 @@
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{geometry}
+\usepackage{hyperref}
 \geometry{margin=1in}
 
 \title{Smart Evacuation of Multi-Floor Buildings using Crowd Dynamics and Optimization}
-\author{Ghiffary Rifqialdi, Mohammed Kaif Khan, Muhammad Awais, Sadeeq Alam\\[1ex] \normalsize Department of Mathematics, University of Hamburg, Hamburg, Germany\\ \normalsize grifqialdi@gmail.com}
+\author{Ghiffary Rifqialdi, Mohammed Kaif Khan, Muhammad Awais, Sadeeq Alam\\[1ex] \normalsize Department of Mathematics, University of Hamburg, Hamburg, Germany\\ \normalsize ghiffary.rifqialdi@studium.uni-hamburg.de}
 \date{16 July 2025}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Ensuring the safe and rapid evacuation of occupants from multi-floor buildings during emergencies is a critical challenge in building design and emergency management. In this paper, we present a hybrid approach combining a microscopic crowd dynamics model with a mesoscopic network flow model to simulate and optimize emergency evacuations in a two-story building under various hazard scenarios (normal conditions, fire, and earthquake). The microscopic model uses a Social Force paradigm to capture individual agent motions and local interactions, while the mesoscopic model represents pedestrian flow through a network of corridors, stairwells, and exits. We incorporate dynamic hazards such as spreading fire, smoke, and earthquake-induced debris into the simulation, affecting agent behavior and route availability in real-time. Furthermore, we formulate a layout optimization problem that adjusts building design variables (exit placements, stair locations, and door widths) to minimize total evacuation time. The optimization is solved using evolutionary algorithms, evaluating candidate layouts via repeated simulations. **Results:** *To be added.* Our approach demonstrates how combining crowd dynamics with optimization can inform safer building designs and evacuation strategies for multi-floor structures.
+Ensuring the safe and rapid evacuation of occupants from multi-floor buildings during emergencies is a critical challenge in architectural design and safety planning. This paper presents a hybrid simulation-optimization framework combining a microscopic Social Force Model (SFM) and a mesoscopic network flow model (FTBS) to simulate evacuations in a two-floor, 30\,m~$\times$~30\,m building with 40 occupants. The models account for dynamic hazards such as fire, smoke, and earthquake-induced debris, which affect agent mobility and route availability in real time. We formulate a building layout optimization problem using NSGA-II to adjust exit locations, stair positions, and door widths for improved evacuation efficiency. Results show that optimization reduced total evacuation time by up to 30.6 seconds (SFM) and 8.5 seconds (FTBS) in normal conditions, and by 100 seconds in fire scenarios using FTBS. Evacuation rates increased by 18.7\% in earthquake scenarios. The mesoscopic model enabled rapid evaluation of design alternatives, while the microscopic model captured detailed crowd interactions. The combined approach supports data-driven design of safer, more resilient multi-floor buildings under emergency conditions.
 \end{abstract}
 
 \section{Introduction}
@@ -26,7 +27,9 @@ Our study also addresses the influence of dynamic hazards on evacuation. We simu
 
 Finally, we formulate a building layout optimization problem. We consider design variables such as the locations of exits on the ground floor, the placement of stairwells connecting floors, and the width of room exit doors. Using an evolutionary optimization approach, we search for layout configurations that improve evacuation performance (minimizing total evacuation time or maximizing the percentage of people evacuated within a time limit). By coupling the optimizer with our simulation models, each candidate building design is evaluated under emergency conditions. This automated design exploration can reveal non-intuitive layout improvements to enhance safety. 
 
-The remainder of this paper is organized as follows: Section~2 describes the evacuation simulation models, including the microscopic crowd dynamics model and the mesoscopic network flow model, along with how hazard scenarios are modeled. Section~3 details the optimization framework for building layout, including decision variables, constraints, and the objective function. Section~4 describes the simulation setup for our case study building and scenarios. **Section~5 will present the results** of our simulations and optimization experiments (to be completed), and Section~6 concludes the paper with a summary and future work (to be completed).
+The remainder of this paper is organized as follows: Section 2 describes the evacuation simulation models, including the microscopic crowd dynamics model and the mesoscopic network flow model, along with how hazard scenarios are modeled. Section 3 details the optimization framework for building layout, including decision variables, constraints, and the objective function. Section 4 describes the simulation setup for our case study building and scenarios. Section 5 will present the results of our simulations and optimization experiments, and Section 6 concludes the paper with a summary and future work).
+
+The complete simulation code is available at: \href{https://github.com/ghiffaryr/SmartEvacuationOfMultiFloorBuildingsUsingCrowdDynamicsAndOptimization}{\texttt{GitHub Repository}}.
 
 \section{Evacuation Simulation Models}
 In this section, we present two complementary simulation models for the evacuation dynamics. The first is a fine-grained \textit{microscopic agent-based model} based on the Social Force approach, which simulates each evacuee as an individual agent with continuous motion in the 2D floor space. The second is a \textit{mesoscopic network flow model} that treats groups of pedestrians moving through discrete sections of the building. Both models incorporate multi-floor building geometry and hazard effects, but they differ in representation and computational complexity. By developing both, we can cross-validate their predictions and utilize the appropriate model for different purposes (e.g., detailed analysis vs. fast optimization evaluations).
@@ -211,7 +214,7 @@ As shown in Fig.~\ref{fig:evac_time_before_after}, optimization significantly re
 Fig.~\ref{fig:evac_rate_before_after} highlights an improvement of +18.7\% in evacuation rate under earthquake using the SFM model post-optimization. FTBS consistently achieves near-total evacuation across all scenarios.
 
 \subsection{Model Comparison}
-In both models, fire posed the highest challenge. SFM achieved only 45.0\% evacuation rate, while FTBS maintained 99.8\%, as shown in Fig.~\ref{fig:rate_model_comparison}. Fig.~\ref{fig:time_model_comparison} further emphasizes the superior performance of FTBS in disaster conditions.
+In both models, fire posed the highest challenge. SFM achieved only 45.0\% evacuation rate, while FTBS sucessfully evacuate with 100\%, as shown in Fig.~\ref{fig:rate_model_comparison}. Fig.~\ref{fig:time_model_comparison} further emphasizes the superior performance of FTBS in disaster conditions.
 
 \subsection{Optimization History}
 Fig.~\ref{fig:opt_history} shows the convergence history for the normal scenario. FTBS converges quickly to a lower evacuation time (min: 19.5s) compared to SFM (min: 24.0s).
